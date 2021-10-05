@@ -4031,17 +4031,20 @@ function run() {
             const searchResult = yield search_1.findFilesToUpload(inputs.searchPath);
             if (searchResult.filesToUpload.length === 0) {
                 // No files were found, different use cases warrant different types of behavior if nothing is found
+                const noFilesFoundMessage = inputs.searchPath
+                    ? `No path provided. No artifacts will be uploaded.`
+                    : `No files were found with the provided path: \`${inputs.searchPath}\`. No artifacts will be uploaded.`;
                 switch (inputs.ifNoFilesFound) {
                     case constants_1.NoFileOptions.warn: {
-                        core.warning(`No files were found with the provided path: ${inputs.searchPath}. No artifacts will be uploaded.`);
+                        core.warning(noFilesFoundMessage);
                         break;
                     }
                     case constants_1.NoFileOptions.error: {
-                        core.setFailed(`No files were found with the provided path: ${inputs.searchPath}. No artifacts will be uploaded.`);
+                        core.setFailed(noFilesFoundMessage);
                         break;
                     }
                     case constants_1.NoFileOptions.ignore: {
-                        core.info(`No files were found with the provided path: ${inputs.searchPath}. No artifacts will be uploaded.`);
+                        core.info(noFilesFoundMessage);
                         break;
                     }
                 }
